@@ -91,6 +91,7 @@ namespace HangMan
                 }
                 if (fel == 6)
                 {
+                    Console.ReadKey();
                     Environment.Exit(1);
                 }
                 Console.WriteLine("\n_____________________");       //new line     
