@@ -14,7 +14,7 @@ namespace HangMan
         }
         public static void Game()
         {
-            string ordet = "ha";                                                                     //Word();  
+            string ordet =  Word();  
             List<char> exempelord = new List<char>();  //creating list for exampleword
             foreach (char c in ordet)//loop putting all chars of word in exampleword
             {
@@ -35,12 +35,15 @@ namespace HangMan
             int fel = 0;
             do
             {
+                int gamlavärdet = rättcharlist.Count;
+                int inskrivnaförsök = gamlavärdet;
                 Console.WriteLine("Skriv in en bokstav:");
                 gissningsbokstav = Console.ReadKey().KeyChar; //enter a char into gissningsbokstav
                 Console.WriteLine();
                 gissningar.Add(gissningsbokstav);           //add letter to allguesses
                 for (int i = 0; i < exempelord.Count; i++)
                 {
+
                     if (rättcharlist.Contains(exempelord[i]))
                     {
                         Console.Write(exempelord[i]);//write out letter
@@ -48,7 +51,8 @@ namespace HangMan
                     else if (exempelord[i] == gissningsbokstav)//if guessingletter == letter in word
                     {
                         Console.Write(gissningsbokstav);            //write letter
-                        rättcharlist.Add(gissningsbokstav);         //add letter to rightguess
+                        rättcharlist.Add(gissningsbokstav);
+                        gamlavärdet++;
                     }
                     else
                     {
@@ -63,7 +67,8 @@ namespace HangMan
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Game();
                     }
-                }
+                }                        
+                inskrivnaförsök++;
                 Console.WriteLine("\n");       //new line     
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("Du har gissat fel på: ");
@@ -75,12 +80,18 @@ namespace HangMan
                     }
                     else { }
                 }
-             
-
+                if (gamlavärdet != inskrivnaförsök)
+                {
+                    fel++;
+                }
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 if (fel > 0)
                 {
                     Man(fel);
+                }
+                if (fel == 6)
+                {
+                    Environment.Exit(1);
                 }
                 Console.WriteLine("\n_____________________");       //new line     
             } while (won == false);
@@ -88,7 +99,6 @@ namespace HangMan
         }
         public static string Word()
         {
-            //List <string> ordgenerator  = new List<string>()
             String[] ordgenerator = new string[]
             { "onomatopeia", "flodhäst","automatisera","kärleksfull","mjukvaruutvecklare","psykopatisk","simbassäng", "myntsamlare","receptnedskrivare","motorvägsanläggare", "hängagubbespelsutvecklare",
                 "akrobatisk", "kampsportsutövare", "långhårig","näringsidkare","filosofilektör", "innehållslista"};//17 ord
@@ -290,7 +300,6 @@ namespace HangMan
                     gubbe[11, 7] = "^";
                     gubbe[12, 6] = "/";
                     gubbe[12, 8] = @"\";
-                    //GAME OVER!  6
                     gubbe[13, 3] = "G";
                     gubbe[13, 4] = "A";
                     gubbe[13, 5] = "M";
@@ -300,8 +309,6 @@ namespace HangMan
                     gubbe[13, 9] = "V";
                     gubbe[13, 10] = "E";
                     gubbe[13, 11] = "R";
-                    Thread.Sleep(10000);
-                    Environment.Exit(0);
                     break;
             }
             for (int i = 0; i < höjd; i++)
@@ -318,7 +325,6 @@ namespace HangMan
                     }
                 }
                 Console.WriteLine();
-
             }
         }
     }
