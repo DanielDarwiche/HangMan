@@ -14,7 +14,7 @@ namespace HangMan
         }
         public static void Game()
         {
-            string ordet =  Word();  
+            string ordet = Word();
             List<char> exempelord = new List<char>();  //creating list for exampleword
             foreach (char c in ordet)//loop putting all chars of word in exampleword
             {
@@ -25,13 +25,12 @@ namespace HangMan
             List<char> gissningar = new List<char>();//list for all guesses
             bool won = false;
             Console.Clear();
-            Console.WriteLine("Hela ordet du ska gissa på är:");//shows amount of letters in the word before playing
+            Console.WriteLine("Hela ordet du ska gissa på är:");
             foreach (int e in ordet)
             {
                 Console.Write("*");
             }
             Console.WriteLine();
-            int point = ordet.Length;
             int fel = 0;
             do
             {
@@ -43,31 +42,36 @@ namespace HangMan
                 gissningar.Add(gissningsbokstav);           //add letter to allguesses
                 for (int i = 0; i < exempelord.Count; i++)
                 {
-
-                    if (rättcharlist.Contains(exempelord[i]))
+                    if (rättcharlist.Count == ordet.Length)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine("\nDu vann!");
+                        Console.WriteLine($" --~~== {ordet} ==~~--");
+                        Thread.Sleep(6500);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Game();
+                    }
+                    if (rättcharlist.Contains(exempelord[i]))   //tar bara in poäng"" för a 1 gång om a finns 2 gngr
                     {
                         Console.Write(exempelord[i]);//write out letter
                     }
-                    else if (exempelord[i] == gissningsbokstav)//if guessingletter == letter in word
+                    else if (exempelord[i] == gissningsbokstav) 
                     {
-                        Console.Write(gissningsbokstav);            //write letter
-                        rättcharlist.Add(gissningsbokstav);
-                        gamlavärdet++;
+                        foreach(char kopia in exempelord)
+                        {
+                            if (gissningsbokstav == kopia)
+                            {
+                                rättcharlist.Add(gissningsbokstav);
+                            }
+                        }
+                        Console.Write(gissningsbokstav);
+                                gamlavärdet++;
                     }
                     else
                     {
                         Console.Write("*");
                     }
-                    if (rättcharlist.Count == point)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine("\nDu vann!");//You won 
-                        Console.WriteLine($" --~~== {ordet} ==~~--");
-                        Thread.Sleep(5000);
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Game();
-                    }
-                }                        
+                }
                 inskrivnaförsök++;
                 Console.WriteLine("\n");       //new line     
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -78,7 +82,6 @@ namespace HangMan
                     {
                         Console.Write("{0} ", giss);
                     }
-                    else { }
                 }
                 if (gamlavärdet != inskrivnaförsök)
                 {
@@ -92,19 +95,26 @@ namespace HangMan
                 if (fel == 6)
                 {
                     Console.ReadKey();
-                    Environment.Exit(1);
+                    Thread.Sleep(1000);
+                    fel = 0;
+                    Game();
                 }
-                Console.WriteLine("\n_____________________");       //new line     
+                Console.WriteLine("\n_____________________");        
             } while (won == false);
-
         }
         public static string Word()
         {
             String[] ordgenerator = new string[]
             { "onomatopeia", "flodhäst","automatisera","kärleksfull","mjukvaruutvecklare","psykopatisk","simbassäng", "myntsamlare","receptnedskrivare","motorvägsanläggare", "hängagubbespelsutvecklare",
-                "akrobatisk", "kampsportsutövare", "långhårig","näringsidkare","filosofilektör", "innehållslista"};//17 ord
+                "akrobatisk", "kampsportsutövare", "långhårig","näringsidkare","filosofilektör", "innehållslista","observation","urinoar","saltgruva","hägring","verifiera",
+                "certifiera","ökenråtta","obducera","djurförsäkring","årsavgift",
+                "balsamering","affirmation","laminering","meditation","krus",
+                "höjdhopp","novell","bagatell","karusell","bänk",
+                "stänk","länk","kränkning","skärmavbild","olympier",
+                "ansträngning","kex","häxa","zebra","zoologisk",
+                "xenofobisk","astrobiologi","lambda","veganism","tamdjur",};//52
             Random display = new Random();
-            int randoooo = display.Next(17); //random siffra skapas i randoooo
+            int randoooo = display.Next(52); //random siffra skapas i randoooo
             string GissningsOrd = ordgenerator[randoooo];
             return GissningsOrd;
             ////SKAPAR GISSNINGSORD
