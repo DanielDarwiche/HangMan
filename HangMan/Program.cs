@@ -55,9 +55,9 @@ namespace HangMan
                     {
                         Console.Write(exempelord[i]);//write out letter
                     }
-                    else if (exempelord[i] == gissningsbokstav) 
+                    else if (exempelord[i] == gissningsbokstav)
                     {
-                        foreach(char kopia in exempelord)
+                        foreach (char kopia in exempelord)
                         {
                             if (gissningsbokstav == kopia)
                             {
@@ -65,7 +65,7 @@ namespace HangMan
                             }
                         }
                         Console.Write(gissningsbokstav);
-                                gamlavärdet++;
+                        gamlavärdet++;
                     }
                     else
                     {
@@ -73,33 +73,31 @@ namespace HangMan
                     }
                 }
                 inskrivnaförsök++;
-                Console.WriteLine("\n");       //new line     
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("Du har gissat fel på: ");
-                foreach (char giss in gissningar)
-                {
-                    if (!rättcharlist.Contains(giss))
-                    {
-                        Console.Write("{0} ", giss);
-                    }
-                }
                 if (gamlavärdet != inskrivnaförsök)
                 {
                     fel++;
                 }
-                Console.ForegroundColor = ConsoleColor.Yellow;
                 if (fel > 0)
                 {
                     Man(fel);
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine("\n\nDu har gissat fel på följande: ");
+                    foreach (char giss in gissningar)
+                    {
+                        if (!rättcharlist.Contains(giss))
+                        {
+                            Console.Write("-{0} ", giss.ToString().ToUpper());
+                        }
+                    }
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 if (fel == 6)
                 {
-                    Console.ReadKey();
-                    Thread.Sleep(1000);
+                    Thread.Sleep(1500);
                     fel = 0;
                     Game();
                 }
-                Console.WriteLine("\n_____________________");        
+                Console.WriteLine("\n_____________________");
             } while (won == false);
         }
         public static string Word()
